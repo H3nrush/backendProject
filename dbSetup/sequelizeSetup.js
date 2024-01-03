@@ -2,7 +2,6 @@ const MoviesModels = require('../models/movies')
 const UserModel = require('../models/users')
 const RoleModel = require('../models/RoleModel')
 const SeriesModels = require('../models/series')
-const GenreModels = require('../models/genre')
 const {Sequelize , DataTypes} = require('sequelize');
 const { setMovies , setRoles , setUsers , setSeries } =require('./setData')
 const reviewModel = require('../models/reviewModels')
@@ -12,6 +11,7 @@ const reviewModel = require('../models/reviewModels')
 const sequelize = new Sequelize('venom', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
+  logging: false,
 });
 
 
@@ -20,19 +20,12 @@ const Role = RoleModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes)
 const Movies = MoviesModels(sequelize, DataTypes)
 const Series = SeriesModels(sequelize, DataTypes)
-const Genre = GenreModels(sequelize , DataTypes)
 const Review = reviewModel(sequelize , DataTypes)
 // const Customer = customerModel(sequelize, DataTypes)
 // const Registration = registrationModel(sequelize, DataTypes, Coworking, Customer)
 
 Role.hasMany(User)
 User.belongsTo(Role)
-
-Movies.hasMany(Genre)
-Genre.hasMany(Movies)
-
-Series.hasMany(Genre)
-Genre.hasMany(Series)
 
 User.hasMany(Review)
 Review.belongsTo(User)
@@ -72,4 +65,4 @@ sequelize
   console.error('Unable to connect to the database:', err);
 });
 
-module.exports = { Role , Movies , Series , User , Genre , Review, sequelize}
+module.exports = { Role , Movies , Series , User  , Review, sequelize}

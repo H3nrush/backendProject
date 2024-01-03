@@ -28,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.BOOLEAN , 
     allowNull: false , 
   }, 
-  seriesGenre:{
-    type: DataTypes.STRING , 
-    allowNull: false ,
-  },
   dateOfEcran:{
     type: DataTypes.DATE , 
     allowNull: false,

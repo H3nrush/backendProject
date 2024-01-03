@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('Review', {
       content: {
-          type: DataTypes.STRING,
+          type: DataTypes.TEXT,
           allowNull: false,
       },
       rating: {
@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
           validate: {
               min: {
-                  msg: `the point cannot be 0`,
+                  msg: `the grade cannot be 0`,
                   args: [0]
               },
               max: {
-                  msg: `the point cannot be morethan 5 star`,
+                  msg: `the grade cannot be morethan 5 star`,
                   args: [5]
               }
           }

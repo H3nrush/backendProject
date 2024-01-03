@@ -4,7 +4,7 @@ const { Series , User, Review, sequelize } = require('../dbSetup/sequelizeSetup'
 
 const findAllSeries = (req, res) => {
     // paramètre optionnel qui permet d'ajouter les données relatives aux commentaires d'un coworking
-    Series.findAll({ include: [Review, User] })
+    Series.findAll()
         .then((results) => {
             res.json(results)
         })
