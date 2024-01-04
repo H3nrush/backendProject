@@ -1,9 +1,8 @@
-const MoviesModels = require('../models/movies')
 const UserModel = require('../models/users')
 const RoleModel = require('../models/RoleModel')
-const SeriesModels = require('../models/series')
+const MoviesModels = require('../models/movies')
 const {Sequelize , DataTypes} = require('sequelize');
-const { setMovies , setRoles , setUsers , setSeries } =require('./setData')
+const { setRoles , setUsers , setMovies } =require('./setData')
 const reviewModel = require('../models/reviewModels')
 
 // config.js
@@ -19,7 +18,6 @@ const sequelize = new Sequelize('venom', 'root', '', {
 const Role = RoleModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes)
 const Movies = MoviesModels(sequelize, DataTypes)
-const Series = SeriesModels(sequelize, DataTypes)
 const Review = reviewModel(sequelize , DataTypes)
 // const Customer = customerModel(sequelize, DataTypes)
 // const Registration = registrationModel(sequelize, DataTypes, Coworking, Customer)
@@ -32,9 +30,6 @@ Review.belongsTo(User)
 
 Movies.hasMany(Review)
 Review.belongsTo(Movies)
-
-Series.hasMany(Review)
-Review.belongsTo(Series)
 // Coworking.belongsToMany(Customer, { through: Registration });
 // Customer.belongsToMany(Coworking, { through: Registration });
 
@@ -43,7 +38,6 @@ sequelize.sync({ force: true })
         await setRoles(Role)
         await setUsers(User)
         await setMovies(Movies)
-        await setSeries(Series)
         // await setCustomers(Customer)
         // setRegistrations(Registration)
     })
@@ -65,4 +59,4 @@ sequelize
   console.error('Unable to connect to the database:', err);
 });
 
-module.exports = { Role , Movies , Series , User  , Review, sequelize}
+module.exports = { Role , Movies , User  , Review, sequelize}

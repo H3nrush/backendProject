@@ -1,18 +1,6 @@
 const dataOfUsers = require('../db/users')
-const dataOfSeries = require('../db/series')
 const dataOfMovies = require('../db/movies')
 const bcrypt = require('bcrypt')
-
-const setMovies = (Movies) =>{
-  return Promise.all(dataOfMovies.map((element)=>{
-    const newMovie = { ...element , id: null }
-    return Movies.create(newMovie)
-    .then(()=> {})
-    .catch((error)=>{
-      console.log(error.message)
-    })
-  }))
-}
 
 
 const setUsers = (User) => {
@@ -32,10 +20,10 @@ const setRoles = (Role) => {
   return Promise.all([Role.create({ label: "superadmin" }), Role.create({ label: "admin" }), Role.create({ label: "edit" })])
 }
 
-const setSeries = (Serial) => {
-  return Promise.all(dataOfSeries.map((element)=>{
-    const newSeries = { ...element , id:null }
-    return Serial.create(newSeries)
+const setMovies = (Serial) => {
+  return Promise.all(dataOfMovies.map((element)=>{
+    const newMovies = { ...element , id:null }
+    return Serial.create(newMovies)
     .then(()=> {})
     .catch((error)=>{
       console.log(error.message)
@@ -43,4 +31,4 @@ const setSeries = (Serial) => {
   }))
 } 
 
-module.exports = { setMovies , setSeries , setUsers , setRoles }
+module.exports = { setMovies , setUsers , setRoles }

@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const { findAllMovies , findMoviesByPk , createMovie , updateMovies , deleteMovies , findAllMoviesRawSQL} = require('../Controllers/moviesController');
+const { findAllMovies , findMoviesByPk , createMovies , updateMovies , deleteMovies , findAllMoviesRawSQL} = require('../Controllers/moviesController');
 const { protect, restrictToOwnUser } = require('../Controllers/authControllers')
 const { Movies } = require('../dbSetup/sequelizeSetup')
 
 router
     .route('/')
     .get(findAllMovies)
-    .post(protect, createMovie)
+    .post(protect, createMovies)
     
 router
     .route('/rawsql')

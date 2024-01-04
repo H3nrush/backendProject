@@ -4,7 +4,7 @@ const { Movies , User, Review, sequelize } = require('../dbSetup/sequelizeSetup'
 
 const findAllMovies = (req, res) => {
     // paramètre optionnel qui permet d'ajouter les données relatives aux commentaires d'un coworking
-    Movies.findAll({ include: [Review, User] })
+    Movies.findAll()
         .then((results) => {
             res.json(results)
         })
@@ -14,7 +14,7 @@ const findAllMovies = (req, res) => {
 }
 
 const findAllMoviesRawSQL = (req, res) => {
-    sequelize.query("SELECT moviesName, rating FROM movies LEFT JOIN reviews ON movies.id = reviews.MoviesId", { type: QueryTypes.SELECT })
+    sequelize.query("SELECT moviesName, rating FROM movies LEFT JOIN reviews ON movies.id = reviews.moviesId", { type: QueryTypes.SELECT })
         .then((results) => {
             res.json(results)
         })
@@ -27,9 +27,9 @@ const findMoviesByPk = (req, res) => {
     Movies.findByPk((parseInt(req.params.id)))
         .then((result) => {
             if (result) {
-                res.json({ message: 'a movie found!.', data: result })
+                res.json({ message: 'a Movies found!.', data: result })
             } else {
-                res.status(404).json({ message: `movie was not found.` })
+                res.status(404).json({ message: `Movies was not found.` })
             }
         })
         .catch((error) => {
@@ -37,23 +37,23 @@ const findMoviesByPk = (req, res) => {
         })
 }
 
-const createMovie = (req, res) => {
+const createMovies = (req, res) => {
     User.findOne({ where: { username: req.username } })
         .then(user => {
             if (!user) {
                 return res.status(404).json({ message: `user was not found.` })
             }
-            const newMovie = { ...req.body, UserId: user.id }
+            const newMovies = { ...req.body, UserId: user.id }
 
-            Movies.create(newMovie)
-                .then((Movie) => {
-                    res.status(201).json({ message: 'the movie is posted .', data: Movie })
+            Movies.create(newMovies)
+                .then((Movies) => {
+                    res.status(201).json({ message: 'the Movies is posted .', data: Movies })
                 })
                 .catch((error) => {
                     if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
                         return res.status(400).json({ message: error.message })
                     }
-                    res.status(500).json({ message: `the movie was not posted .`, data: error.message })
+                    res.status(500).json({ message: `the Movies was not posted .`, data: error.message })
                 })
         })
         .catch(error => {
@@ -67,10 +67,10 @@ const updateMovies = (req, res) => {
             if (result) {
                 return result.update(req.body)
                     .then(() => {
-                        res.status(201).json({ message: 'the movie details is updated.', data: result })
+                        res.status(201).json({ message: 'the Movies details is updated.', data: result })
                     })
             } else {
-                res.status(404).json({ message: `the movie for update is not found.` })
+                res.status(404).json({ message: `the Movies for update is not found.` })
             }
         })
         .catch(error => {
@@ -91,17 +91,17 @@ const deleteMovies = (req, res) => {
                 return result.destroy()
                     // C. Si le coworking est bien supprimé, on affiche un message avec comme data le coworking récupéré dans le .findByPk()
                     .then((result) => {
-                        res.json({ mesage: `the movie is successfully deleted .`, data: result })
+                        res.json({ mesage: `the Movies is successfully deleted .`, data: result })
                     })
             } else {
                 // B Si aucun coworking ne correspond à l'id alors on retourne une réponse à POSTMAN
-                res.status(404).json({ mesage: `movie was not found.` })
+                res.status(404).json({ mesage: `Movies was not found.` })
             }
         })
         .catch((error) => {
             // E. Si une erreur est survenue dès le findByPk, on retourne une réponse à POSTMAN
-            res.status(500).json({ mesage: `the movie with given information was not found.`, data: error.message })
+            res.status(500).json({ mesage: `the Movies with given information was not found.`, data: error.message })
         })
 }
 
-module.exports = { findAllMovies, findMoviesByPk, createMovie, updateMovies, deleteMovies, findAllMoviesRawSQL}
+module.exports = { findAllMovies, findMoviesByPk, createMovies, updateMovies, deleteMovies, findAllMoviesRawSQL}

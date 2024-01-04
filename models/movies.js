@@ -1,42 +1,38 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Movie', {
-  movieName:{
+  return sequelize.define('Movies', {
+  moviesName:{
     type: DataTypes.STRING , 
     allowNull: false,
   },
-  movieUrl:{
+  moviesUrl:{
     type: DataTypes.TEXT , 
     allowNull: false,
   },
-  moviePoster:{
+  moviesPoster:{
     type: DataTypes.TEXT , 
     allowNull: false ,
   },
-  movieInfo:{
+  moviesInfo:{
     type: DataTypes.STRING,
     allowNull: true , 
   },
-  movieArtits:{
+  moviesArtits:{
     type: DataTypes.STRING,
     defaultValue: false,
     allowNull: true ,
   },
-  movieCountry:{
+  moviesCountry:{
     type: DataTypes.STRING ,
   },
   isSubtitled:{
     type: DataTypes.BOOLEAN , 
     allowNull: false , 
   }, 
-  movieGenre:{
-    type: DataTypes.STRING , 
-    allowNull: false ,
-  },
   dateOfEcran:{
     type: DataTypes.DATE , 
     allowNull: false,
   }, 
-  movieLanguege:{
+  moviesLanguege:{
     type: DataTypes.STRING , 
     allowNull: false , 
   },
