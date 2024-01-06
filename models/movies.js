@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     allowNull: false ,
   },
   moviesInfo:{
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true , 
   },
   moviesArtits:{
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     defaultValue: false,
     allowNull: true ,
   },
@@ -29,12 +29,20 @@ module.exports = (sequelize, DataTypes) => {
     allowNull: false , 
   }, 
   dateOfEcran:{
-    type: DataTypes.DATE , 
+    type: DataTypes.TEXT , 
     allowNull: false,
   }, 
   moviesLanguege:{
     type: DataTypes.STRING , 
     allowNull: false , 
+  },
+  moviesGenre:{
+    type: DataTypes.STRING , 
+    allowNull: false ,
+  },
+  imdb:{
+    type: DataTypes.TEXT , 
+    allowNull: false ,
   },
 
 
