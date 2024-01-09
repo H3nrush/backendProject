@@ -1,9 +1,10 @@
 const UserModel = require('../models/users')
 const RoleModel = require('../models/RoleModel')
 const MoviesModels = require('../models/movies')
+const GenreModel = require('../models/Genre')
 const {Sequelize , DataTypes} = require('sequelize');
 const { setRoles , setUsers , setMovies } =require('./setData')
-const reviewModel = require('../models/reviewModels')
+const reviewModel = require('../models/reviewModels');
 
 // config.js
 
@@ -14,17 +15,19 @@ const sequelize = new Sequelize('venom', 'root', '', {
 });
 
 
-
+const ganre = GenreModel(sequelize , DataTypes)
 const Role = RoleModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes)
 const Movies = MoviesModels(sequelize, DataTypes)
 const Review = reviewModel(sequelize , DataTypes)
 // const Customer = customerModel(sequelize, DataTypes)
 // const Registration = registrationModel(sequelize, DataTypes, Coworking, Customer)
+Movies.belongsToMany(ganre, {through: "relationGenre"});
+ganre.belongsToMany(Movies, {through: "relationGenre"});
 
 Role.hasMany(User)
 User.belongsTo(Role)
-
+ 
 User.hasMany(Review)
 Review.belongsTo(User)
 
@@ -37,7 +40,7 @@ sequelize.sync({ force: true })
     .then(async () => {
         await setRoles(Role)
         await setUsers(User)
-        await setMovies(Movies)
+        await setMovies(Movies)  
         // await setCustomers(Customer)
         // setRegistrations(Registration)
     })

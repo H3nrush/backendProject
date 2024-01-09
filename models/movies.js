@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
   },
   moviesUrl:{
     type: DataTypes.TEXT , 
-    allowNull: false,
   },
   moviesPoster:{
     type: DataTypes.TEXT , 
@@ -37,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     allowNull: false , 
   },
   moviesGenre:{
-    type: DataTypes.STRING , 
+    type: DataTypes.JSON , 
     allowNull: false ,
   },
   imdb:{

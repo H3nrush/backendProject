@@ -10,9 +10,24 @@ const findAllReviews = (req, res) => {
             res.status(500).json(error.message)
         })
 }
+const findAllReview = (req, res) => {
+    const movieId = req.params.movieId; // Assuming movieId is part of the route parameters
+
+    Review.findAll({
+        where: { MovieId: movieId },
+        include: User,
+        order: [['createdAt', 'DESC']] // Order by createdAt in descending order
+    })
+        .then(result => {
+            res.json(result);
+        })
+        .catch(error => {
+            res.status(500).json(error.message);
+        });
+};
 
 const findReviewByPk = (req, res) => {
-    return res.json({ message: `find by pk` })
+    return res.json({ message: `find by pk`})
 }
 
 const createReview = (req, res) => {
@@ -71,4 +86,4 @@ const deleteReview = (req, res) => {
         })
 }
 
-module.exports = { findAllReviews, findReviewByPk, createReview, updateReview, deleteReview }
+module.exports = { findAllReviews, findReviewByPk, createReview, updateReview, deleteReview, findAllReview }

@@ -20,10 +20,10 @@ const setRoles = (Role) => {
   return Promise.all([Role.create({ label: "superadmin" }), Role.create({ label: "admin" }), Role.create({ label: "edit" })])
 }
 
-const setMovies = (Serial) => {
+const setMovies = (movies) => {
   return Promise.all(dataOfMovies.map((element)=>{
     const newMovies = { ...element , id:null }
-    return Serial.create(newMovies)
+    return movies.create(newMovies)
     .then(()=> {})
     .catch((error)=>{
       console.log(error.message)

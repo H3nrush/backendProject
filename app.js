@@ -27,6 +27,8 @@ const reviewRouter = require('./routes/reviewRoutes');
 app.use('/api/users' , usersRouter)
 app.use('/api/reviews', reviewRouter)
 app.use('/api/Movies' , moviesRouter)
+app.use(moviesRouter);
+
 const port = process.env.PORT || 4040
 app.listen(port , ()=>{
   console.log(`server is running on port => ${port}`)

@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
     },
-    isUserSubscribed:{
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
     password:{
       type: DataTypes.STRING , 
       allowNull: false,
