@@ -21,7 +21,9 @@ const login = (req, res)=>{
             return res.status(401).json({ message: `the password is not valid!`})
           }
           const token = jwt.sign({
-            data: result.username
+            data: result.username ,
+            RoleId: result.RoleId, // Include the RoleId in the payload
+            id: result.id, 
           }, SECRET_KEY,{expiresIn: '10h'});
           res.json({ message: `Login Successfull!` , data: token})
         })

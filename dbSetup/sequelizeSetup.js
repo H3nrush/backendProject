@@ -1,7 +1,6 @@
 const UserModel = require('../models/users')
 const RoleModel = require('../models/RoleModel')
 const MoviesModels = require('../models/movies')
-const GenreModel = require('../models/Genre')
 const {Sequelize , DataTypes} = require('sequelize');
 const { setRoles , setUsers , setMovies } =require('./setData')
 const reviewModel = require('../models/reviewModels');
@@ -14,16 +13,12 @@ const sequelize = new Sequelize('venom', 'root', '', {
   logging: false,
 });
 
-
-const ganre = GenreModel(sequelize , DataTypes)
 const Role = RoleModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes)
 const Movies = MoviesModels(sequelize, DataTypes)
 const Review = reviewModel(sequelize , DataTypes)
 // const Customer = customerModel(sequelize, DataTypes)
 // const Registration = registrationModel(sequelize, DataTypes, Coworking, Customer)
-Movies.belongsToMany(ganre, {through: "relationGenre"});
-ganre.belongsToMany(Movies, {through: "relationGenre"});
 
 Role.hasMany(User)
 User.belongsTo(Role)
