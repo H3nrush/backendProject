@@ -24,7 +24,7 @@ const login = (req, res)=>{
             data: result.username ,
             RoleId: result.RoleId, // Include the RoleId in the payload
             id: result.id, 
-          }, SECRET_KEY,{expiresIn: '10h'});
+          }, SECRET_KEY);
           res.json({ message: `Login Successfull!` , data: token})
         })
        })
