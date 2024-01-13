@@ -20,13 +20,15 @@ app.get('/' , (req , res)=>{
   })
 })
 
-const moviesRouter = require('./routes/moviesRoutes')
-const usersRouter = require('./routes/usersRoutes')
+const moviesRouter = require('./routes/moviesRoutes');
+const usersRouter = require('./routes/usersRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const feedBacksRouter = require('./routes/feedBackRoutes')
 
 app.use('/api/users' , usersRouter)
 app.use('/api/reviews', reviewRouter)
 app.use('/api/Movies' , moviesRouter)
+app.use('/api/feedBacks' , feedBacksRouter)
 app.use(moviesRouter);
 
 const port = process.env.PORT || 4040
