@@ -78,7 +78,7 @@ const deleteReview = (req, res) => {
                         res.json({ mesage: `comment is deleted .!`, data: result })
                     })
             } else {
-                res.status(404).json({ mesage: `comment was not found.` })
+                res.status(404).json({ mesage: `comment was not found.` }) 
             }
         })
         .catch((error) => {
@@ -86,4 +86,4 @@ const deleteReview = (req, res) => {
         })
 }
 
-module.exports = { findAllReviews, findReviewByPk, createReview, updateReview, deleteReview, findAllReview }
+module.exports = { findAllReviews, findReviewByPk, createReview, updateReview, deleteReview, findAllReview } 

@@ -71,7 +71,7 @@ const movies = [
   dateOfEcran: "5 December 2002",
   moviesLanguege:"English",
   moviesGenre: [`Historic`,`Fantasy`,`Action`] ,
-  imdb: `tt0167261`
+  imdb: `tt0167261` 
 },{
   moviesName: "The Lord of the rings 3",
   moviesUrl: `https://www.youtube.com/embed/y2rYRu8UW8M?si=YxrwpDMKEcrLLYW8`,

@@ -11,7 +11,7 @@ const findAllUsers = (req , res)=> {
     res.status(500).json(error.message)
   })
 }
-
+ 
 const findUserByPk = (req, res) => {
   User.findByPk((parseInt(req.params.id)))
       .then((result) => {
@@ -46,36 +46,59 @@ const createUser = (req, res) => {
       })
 }
 
-
 const updateUser = (req, res) => {
   User.findByPk(req.params.id)
-      .then((result) => {
-          if (result) {
-              if (req.body.password) {
-                  return bcrypt.hash(req.body.password, 10)
-                      .then((hash) => {
-                          req.body.password = hash
+    .then((result) => {
+      if (result) {
+        // Check if RoleId is provided in the request body
+        if (req.body.RoleId !== undefined) {
+          req.body.RoleId = parseInt(req.body.RoleId, 10);
 
-                          // On empêche l'utilisateur de mettre à jour son username
-                          req.body.username = result.username
+          const validRoles = [1, 2, 3];
+          if (!validRoles.includes(req.body.RoleId)) {
+            return res.status(400).json({ message: "Invalid RoleId" });
+          }
+        }
 
-                          return result.update(req.body)
-                              .then(() => {
-                                  res.status(201).json({ message: `user updated!`, data: result })
-                              })
-                      })
+        // Hash password if provided
+        if (req.body.password) {
+          return bcrypt.hash(req.body.password, 10)
+            .then((hash) => {
+              req.body.password = hash;
+              req.body.username = result.username;
+
+              // Update RoleId if provided
+              if (req.body.RoleId !== undefined) {
+                req.body.RoleId = parseInt(req.body.RoleId, 10);
               }
-          } else {
-              res.status(404).json({ message: `there is not use by this information .` })
+
+              return result.update(req.body)
+                .then(() => {
+                  res.status(201).json({ message: "User updated!", data: result });
+                });
+            });
+        } else {
+          // If no password provided, only update RoleId
+          if (req.body.RoleId !== undefined) {
+            req.body.RoleId = parseInt(req.body.RoleId, 10);
           }
-      })
-      .catch(error => {
-          if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
-              return res.status(400).json({ message: error.message })
-          }
-          res.status(500).json({ message: `an error from server.`, data: error.message })
-      })
-}
+
+          return result.update(req.body)
+            .then(() => {
+              res.status(201).json({ message: "User updated!", data: result });
+            });
+        }
+      } else {
+        res.status(404).json({ message: "User not found." });
+      }
+    })
+    .catch(error => {
+      if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
+        return res.status(400).json({ message: error.message });
+      }
+      res.status(500).json({ message: "Internal server error.", data: error.message });
+    });
+};
 
 const deleteUser = (req, res) => {
   User.findByPk(req.params.id)

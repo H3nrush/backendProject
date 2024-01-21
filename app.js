@@ -1,3 +1,4 @@
+//i gonna put the express into a variable
 const express = require('express');
 const cors = require("cors");
 // const jwt = require('jsonwebtoken');

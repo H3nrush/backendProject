@@ -15,7 +15,7 @@ router
 
 router
     .route('/:id')
-    .get(findMoviesByPk)
+    .get(findMoviesByPk) 
     .put(protect, restrictToOwnUser(Movies), updateMovies)
     .delete(protect, restrictToOwnUser(Movies), deleteMovies)
     

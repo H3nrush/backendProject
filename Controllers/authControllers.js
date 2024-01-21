@@ -15,6 +15,7 @@ const login = (req, res)=>{
         if(!result){
           return res.status(404).json({ message: `the name of this user is not found!`})
         }
+        //using bcrypt to hash the password 
         return bcrypt.compare(req.body.password , result.password)
         .then((isValid)=>{
           if(!isValid){
@@ -82,38 +83,40 @@ const restrict = (roleParam) =>{
 
 const restrictToOwnUser = (model) => {
   return (req, res, next) => {
-      User.findOne(
-          {
-              where:
-                  { username: req.username }
-          })
-          .then(user => {
-              if (!user) {
-                  return res.status(404).json({ message: `Pas d'utilisateur trouvé.` })
-              }
-              // on teste d'abord si le user est admin
-              return Role.findByPk(user.RoleId)
-                  .then(role => {
-                      if (rolesHierarchy[role.label].includes('admin')) {
-                          return next()
-                      }
-                      model.findByPk(req.params.id)
-                          .then(resource => {
-                              if (!resource) return res.status(404).json({ message: `La ressource n'existe pas.` })
-                              if (user.id === resource.UserId) {
-                                  next()
-                              } else {
-                                  res.status(403).json({ message: `Vous n'êtes pas l'auteur de la ressource.` })
-                              }
-                          })
-                          .catch(error => {
-                              return res.status(500).json({ message: error.message })
-                          })
-                  })
-          })
-          .catch(error => console.log(error.message))
-  }
-}
+    User.findOne({
+      where: { username: req.username }
+    })
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({ message: `Pas d'utilisateur trouvé.` })
+        }
+
+        // Check if the user is a superadmin
+        return Role.findByPk(user.RoleId)
+          .then(role => {
+            if (rolesHierarchy[role.label].includes('superadmin')) {
+              return next(); // Superadmin can perform any action
+            }
+
+            // Check if the user is the owner of the resource
+            model.findByPk(req.params.id)
+              .then(resource => {
+                if (!resource) return res.status(404).json({ message: `La ressource n'existe pas.` })
+
+                if (user.id === resource.UserId) {
+                  next(); // User is the owner, allow the action
+                } else {
+                  res.status(403).json({ message: `Vous n'êtes pas l'auteur de la ressource.` });
+                }
+              })
+              .catch(error => {
+                return res.status(500).json({ message: error.message });
+              }); 
+          });
+      })
+      .catch(error => console.log(error.message));
+  };
+};
 
 const correctUser = (req, res, next) => {
   User.findOne({ where: { username: req.username } })

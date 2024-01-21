@@ -3,7 +3,7 @@ const { UniqueConstraintError, ValidationError, QueryTypes } = require('sequeliz
 const { Movies , User, Review, sequelize } = require('../dbSetup/sequelizeSetup')
 
 const findAllMovies = (req, res) => {
-    // paramètre optionnel qui permet d'ajouter les données relatives aux commentaires d'un coworking
+    // paramètre optionnel qui permet d'ajouter les données relatives aux commentaires d'un movie
     Movies.findAll()
         .then((results) => {
             res.json(results)
@@ -86,15 +86,15 @@ const deleteMovies = (req, res) => {
     // A. On vérifie que l'id passé en req.params.id renvoie bien une ligne de notre table.
     Movies.findByPk(req.params.id)
         .then((result) => {
-            // B. Si un coworking correspond à l'id alors on exécute la méthode destroy()
+            // B. Si un movie correspond à l'id alors on exécute la méthode destroy()
             if (result) {
                 return result.destroy()
-                    // C. Si le coworking est bien supprimé, on affiche un message avec comme data le coworking récupéré dans le .findByPk()
+                    // C. Si le movie est bien supprimé, on affiche un message avec comme data le movie récupéré dans le .findByPk()
                     .then((result) => {
                         res.json({ mesage: `the Movies is successfully deleted .`, data: result })
                     })
             } else {
-                // B Si aucun coworking ne correspond à l'id alors on retourne une réponse à POSTMAN
+                // B Si aucun movie ne correspond à l'id alors on retourne une réponse à POSTMAN
                 res.status(404).json({ mesage: `Movies was not found.` })
             }
         })

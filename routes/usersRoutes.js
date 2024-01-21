@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const { findAllUsers, findUserByPk, createUser, updateUser, deleteUser } = require('../Controllers/userControllers')
-const { login, protect, restrict, correctUser } = require('../Controllers/authControllers')
+const { login, protect, restrict, correctUser, restrictToOwnUser } = require('../Controllers/authControllers')
+const { User } = require('../dbSetup/sequelizeSetup')
 
 
 router
@@ -16,6 +17,6 @@ router
 router
     .route('/:id')
     .get(findUserByPk)
-    .put(protect, correctUser, updateUser)
+    .put(protect, restrictToOwnUser(User), updateUser) 
     .delete(protect, restrict("superadmin"), deleteUser)
 module.exports = router

@@ -12,7 +12,7 @@ const sequelize = new Sequelize('film2movies', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
   logging: false,
-});
+}); 
 
 const Role = RoleModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes)
