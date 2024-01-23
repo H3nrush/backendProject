@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { findAllMovies , findMoviesByPk , createMovies , updateMovies , deleteMovies , findAllMoviesRawSQL} = require('../Controllers/moviesController');
-const { protect, restrictToOwnUser } = require('../Controllers/authControllers')
+const { protect, restrictToOwnUser, restrict } = require('../Controllers/authControllers')
 const { Movies } = require('../dbSetup/sequelizeSetup')
 
 router
@@ -16,7 +16,7 @@ router
 router
     .route('/:id')
     .get(findMoviesByPk) 
-    .put(protect, restrictToOwnUser(Movies), updateMovies)
-    .delete(protect, restrictToOwnUser(Movies), deleteMovies)
+    .put(protect, restrict("superadmin","admin"), updateMovies)
+    .delete(protect, restrict("superadmin","admin"), deleteMovies)
     
 module.exports = router
